@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-import parseJsonType from 'parse-json';
 import importFreshType from 'import-fresh';
 import { LoaderSync } from './index';
 import { LoadersSync } from './types';
@@ -15,14 +14,9 @@ const loadJs: LoaderSync = function loadJs(filepath) {
   return result;
 };
 
-let parseJson: typeof parseJsonType;
 const loadJson: LoaderSync = function loadJson(filepath, content) {
-  if (parseJson === undefined) {
-    parseJson = require('parse-json');
-  }
-
   try {
-    const result = parseJson(content);
+    const result = JSON.parse(content);
     return result;
   } catch (error) {
     error.message = `JSON Error in ${filepath}:\n${error.message}`;
