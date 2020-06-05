@@ -84,9 +84,7 @@ describe('cosmiconfig', () => {
       expect(loaderFunctionsByName).toEqual({
         '.js': 'loadJs',
         '.json': 'loadJson',
-        '.yaml': 'loadYaml',
-        '.yml': 'loadYaml',
-        noExt: 'loadYaml',
+        noExt: 'loadJson',
       });
 
       expect(explorerOptions).toEqual({
@@ -95,8 +93,6 @@ describe('cosmiconfig', () => {
           'package.json',
           `.${moduleName}rc`,
           `.${moduleName}rc.json`,
-          `.${moduleName}rc.yaml`,
-          `.${moduleName}rc.yml`,
           `.${moduleName}rc.js`,
           `${moduleName}.config.js`,
         ],
@@ -145,7 +141,6 @@ describe('cosmiconfig', () => {
     const noExtLoader: LoaderSync = () => {};
     const jsLoader: LoaderSync = () => {};
     const jsonLoader: LoaderSync = () => {};
-    const yamlLoader: LoaderSync = () => {};
 
     const options = {
       stopDir: __dirname,
@@ -157,7 +152,6 @@ describe('cosmiconfig', () => {
         noExt: noExtLoader,
         '.js': jsLoader,
         '.json': jsonLoader,
-        '.yaml': yamlLoader,
       },
     };
 
@@ -171,8 +165,6 @@ describe('cosmiconfig', () => {
       expect(loaderFunctionsByName).toEqual({
         '.js': 'jsLoader',
         '.json': 'jsonLoader',
-        '.yaml': 'yamlLoader',
-        '.yml': 'loadYaml',
         noExt: 'noExtLoader',
       });
 

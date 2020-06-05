@@ -1,5 +1,5 @@
 {
-  "name": "cosmiconfig",
+  "name": "cosmiconfig-no-yaml",
   "version": "6.0.0",
   "description": "Find and load configuration from a package.json property, rc file, or CommonJS module",
   "main": "dist/index.js",
@@ -49,7 +49,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davidtheclark/cosmiconfig.git"
+    "url": "git+https://github.com/tabrindle/cosmiconfig.git"
   },
   "keywords": [
     "load",
@@ -63,9 +63,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/davidtheclark/cosmiconfig/issues"
+    "url": "https://github.com/tabrindle/cosmiconfig/issues"
   },
-  "homepage": "https://github.com/davidtheclark/cosmiconfig#readme",
+  "homepage": "https://github.com/tabrindle/cosmiconfig#readme",
   "prettier": {
     "trailingComma": "all",
     "arrowParens": "always",
@@ -112,8 +112,7 @@
     "@types/parse-json": "^4.0.0",
     "import-fresh": "^3.1.0",
     "parse-json": "^5.0.0",
-    "path-type": "^4.0.0",
-    "yaml": "^1.7.2"
+    "path-type": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",

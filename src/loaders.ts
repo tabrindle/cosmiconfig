@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import parseJsonType from 'parse-json';
-import yamlType from 'yaml';
 import importFreshType from 'import-fresh';
 import { LoaderSync } from './index';
 import { LoadersSync } from './types';
@@ -31,21 +30,6 @@ const loadJson: LoaderSync = function loadJson(filepath, content) {
   }
 };
 
-let yaml: typeof yamlType;
-const loadYaml: LoaderSync = function loadYaml(filepath, content) {
-  if (yaml === undefined) {
-    yaml = require('yaml');
-  }
-
-  try {
-    const result = yaml.parse(content, { prettyErrors: true });
-    return result;
-  } catch (error) {
-    error.message = `YAML Error in ${filepath}:\n${error.message}`;
-    throw error;
-  }
-};
-
-const loaders: LoadersSync = { loadJs, loadJson, loadYaml };
+const loaders: LoadersSync = { loadJs, loadJson };
 
 export { loaders };

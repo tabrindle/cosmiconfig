@@ -1,9 +1,11 @@
-# cosmiconfig
+# cosmiconfig-no-yaml
 
 [![Build Status](https://img.shields.io/travis/davidtheclark/cosmiconfig/master.svg?label=unix%20build)](https://travis-ci.org/davidtheclark/cosmiconfig) [![Build status](https://img.shields.io/appveyor/ci/davidtheclark/cosmiconfig/master.svg?label=windows%20build)](https://ci.appveyor.com/project/davidtheclark/cosmiconfig/branch/master)
 [![codecov](https://codecov.io/gh/davidtheclark/cosmiconfig/branch/master/graph/badge.svg)](https://codecov.io/gh/davidtheclark/cosmiconfig)
 
 Cosmiconfig searches for and loads configuration for your program.
+
+**THIS FORK DOES NOTHING MORE THAN REMOVING YAML SUPPORT**
 
 It features smart defaults based on conventional expectations in the JavaScript ecosystem.
 But it's also flexible enough to search wherever you'd like to search, and load whatever you'd like to load.
@@ -11,16 +13,16 @@ But it's also flexible enough to search wherever you'd like to search, and load 
 By default, Cosmiconfig will start where you tell it to start and search up the directory tree for the following:
 
 - a `package.json` property
-- a JSON or YAML, extensionless "rc file"
-- an "rc file" with the extensions `.json`, `.yaml`, `.yml`, or `.js`.
+- a JSON, or extensionless "rc file"
+- an "rc file" with the extensions `.json`, or `.js`.
 - a `.config.js` CommonJS module
 
 For example, if your module's name is "myapp", cosmiconfig will search up the directory tree for configuration in the following places:
 
 - a `myapp` property in `package.json`
-- a `.myapprc` file in JSON or YAML format
+- a `.myapprc` file in JSON format
 - a `.myapprc.json` file
-- a `.myapprc.yaml`, `.myapprc.yml`, or `.myapprc.js` file
+- a `.myapprc.js` file
 - a `myapp.config.js` file exporting a JS object
 
 Cosmiconfig continues to search up the directory tree, checking each of these places in each directory, until it finds some acceptable configuration (or hits the home directory).
@@ -36,7 +38,7 @@ If you are still using v5, those v5 docs are available [in the `5.x.x` tagged co
 - [Usage](#usage)
 - [Result](#result)
 - [Asynchronous API](#asynchronous-api)
-  - [cosmiconfig()](#cosmiconfig-1)
+  - [cosmiconfig()](#cosmiconfig)
   - [explorer.search()](#explorersearch)
   - [explorer.load()](#explorerload)
   - [explorer.clearLoadCache()](#explorerclearloadcache)
@@ -147,9 +149,9 @@ Here's how your default [`search()`] will work:
 
 - Starting from `process.cwd()` (or some other directory defined by the `searchFrom` argument to [`search()`]), look for configuration objects in the following places:
   1. A `goldengrahams` property in a `package.json` file.
-  2. A `.goldengrahamsrc` file with JSON or YAML syntax.
+  2. A `.goldengrahamsrc` file with JSON syntax.
   3. A `.goldengrahamsrc.json` file.
-  4. A `.goldengrahamsrc.yaml`, `.goldengrahamsrc.yml`, or `.goldengrahamsrc.js` file.
+  4. A `.goldengrahamsrc.js` file.
   5. A `goldengrahams.config.js` JS file exporting the object.
 - If none of those searches reveal a configuration object, move up one directory level and try again.
   So the search continues in `./`, `../`, `../../`, `../../../`, etc., checking the same places in each directory.
@@ -270,8 +272,6 @@ Each place is relative to the directory being searched, and the places are check
   'package.json',
   `.${moduleName}rc`,
   `.${moduleName}rc.json`,
-  `.${moduleName}rc.yaml`,
-  `.${moduleName}rc.yml`,
   `.${moduleName}rc.js`,
   `${moduleName}.config.js`,
 ]
@@ -299,8 +299,6 @@ Examples, with a module named `porgy`:
 // ESLint searches for configuration in these places:
 [
   '.eslintrc.js',
-  '.eslintrc.yaml',
-  '.eslintrc.yml',
   '.eslintrc.json',
   '.eslintrc',
   'package.json'
@@ -350,13 +348,9 @@ console.log(Object.entries(defaultLoaders))
 // [
 //   [ '.js', [Function: loadJs] ],
 //   [ '.json', [Function: loadJson] ],
-//   [ '.yaml', [Function: loadYaml] ],
-//   [ '.yml', [Function: loadYaml] ],
-//   [ 'noExt', [Function: loadYaml] ]
+//   [ 'noExt', [Function: loadJson] ]
 // ]
 ```
-
-(YAML is a superset of JSON; which means YAML parsers can parse JSON; which is how extensionless files can be either YAML *or* JSON with only one parser.)
 
 **If you provide a `loaders` object, your object will be *merged* with the defaults.**
 So you can override one or two without having to override them all.
@@ -365,7 +359,7 @@ So you can override one or two without having to override them all.
 
 **Values in `loaders`** are a loader function (described below) whose values are loader functions.
 
-**The most common use case for custom loaders value is to load extensionless `rc` files as strict JSON**, instead of JSON *or* YAML (the default).
+**The most common use case for custom loaders value is to load extensionless `rc` files as strict JSON**, instead of JSON.
 To accomplish that, provide the following `loaders` value:
 
 ```js
@@ -528,7 +522,7 @@ To avoid or work around caching, you can do the following:
 [rc](https://github.com/dominictarr/rc) serves its focused purpose well. cosmiconfig differs in a few key ways — making it more useful for some projects, less useful for others:
 
 - Looks for configuration in some different places: in a `package.json` property, an rc file, a `.config.js` file, and rc files with extensions.
-- Built-in support for JSON, YAML, and CommonJS formats.
+- Built-in support for JSON, and CommonJS formats.
 - Stops at the first configuration found, instead of finding all that can be found up the directory tree and merging them automatically.
 - Options.
 - Asynchronous by default (though can be run synchronously).

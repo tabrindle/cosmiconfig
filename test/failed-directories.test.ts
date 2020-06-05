@@ -32,22 +32,16 @@ describe('gives up if it cannot find the file', () => {
       'a/b/package.json',
       'a/b/.foorc',
       'a/b/.foorc.json',
-      'a/b/.foorc.yaml',
-      'a/b/.foorc.yml',
       'a/b/.foorc.js',
       'a/b/foo.config.js',
       'a/package.json',
       'a/.foorc',
       'a/.foorc.json',
-      'a/.foorc.yaml',
-      'a/.foorc.yml',
       'a/.foorc.js',
       'a/foo.config.js',
       'package.json',
       '.foorc',
       '.foorc.json',
-      '.foorc.yaml',
-      '.foorc.yml',
       '.foorc.js',
       'foo.config.js',
     ]);
@@ -82,15 +76,11 @@ describe('stops at stopDir and gives up', () => {
       'a/b/package.json',
       'a/b/.foorc',
       'a/b/.foorc.json',
-      'a/b/.foorc.yaml',
-      'a/b/.foorc.yml',
       'a/b/.foorc.js',
       'a/b/foo.config.js',
       'a/package.json',
       'a/.foorc',
       'a/.foorc.json',
-      'a/.foorc.yaml',
-      'a/.foorc.yml',
       'a/.foorc.js',
       'a/foo.config.js',
     ]);
@@ -110,31 +100,6 @@ describe('stops at stopDir and gives up', () => {
 
     const result = cosmiconfigSync('foo', explorerOptions).search(startDir);
     checkResult(readFileSpy, result);
-  });
-});
-
-describe('throws error for invalid YAML in rc file', () => {
-  beforeEach(() => {
-    temp.createFile('a/b/.foorc', 'found: true: broken');
-  });
-
-  const startDir = temp.absolutePath('a/b');
-  const explorerOptions = { stopDir: temp.absolutePath('a') };
-
-  const expectedError = `YAML Error in ${temp.absolutePath(
-    'a/b/.foorc',
-  )}:\nNested mappings are not allowed in compact mappings at line 1, column 8:`;
-
-  test('async', async () => {
-    await expect(
-      cosmiconfig('foo', explorerOptions).search(startDir),
-    ).rejects.toThrow(expectedError);
-  });
-
-  test('sync', () => {
-    expect(() =>
-      cosmiconfigSync('foo', explorerOptions).search(startDir),
-    ).toThrow(expectedError);
   });
 });
 
@@ -240,33 +205,6 @@ describe('throws error for invalid JSON in .foorc.json', () => {
   });
 });
 
-describe('throws error for invalid YAML in .foorc.yml', () => {
-  beforeEach(() => {
-    temp.createFile('a/b/c/d/e/f/.foorc.yml', 'found: thing: true');
-  });
-
-  const startDir = temp.absolutePath('a/b/c/d/e/f');
-  const explorerOptions = {
-    stopDir: temp.absolutePath('.'),
-  };
-
-  const expectedError = `YAML Error in ${temp.absolutePath(
-    'a/b/c/d/e/f/.foorc.yml',
-  )}:\nNested mappings are not allowed in compact mappings at line 1, column 8:`;
-
-  test('async', async () => {
-    await expect(
-      cosmiconfig('foo', explorerOptions).search(startDir),
-    ).rejects.toThrow(expectedError);
-  });
-
-  test('sync', () => {
-    expect(() =>
-      cosmiconfigSync('foo', explorerOptions).search(startDir),
-    ).toThrow(expectedError);
-  });
-});
-
 describe('searching for rc files with specified extensions, throws error for invalid JS in .foorc.js', () => {
   beforeEach(() => {
     temp.createFile('a/b/c/d/e/f/.foorc.js', 'module.exports = found: true };');
@@ -279,8 +217,6 @@ describe('searching for rc files with specified extensions, throws error for inv
       'package.json',
       '.foorc',
       '.foorc.json',
-      '.foorc.yaml',
-      '.foorc.yml',
       '.foorc.js',
       'foo.config.js',
     ],
@@ -391,36 +327,6 @@ describe('without ignoring empty files, returns an empty config result for an em
   });
 });
 
-describe('returns an empty config result for an empty .yaml rc file', () => {
-  beforeEach(() => {
-    temp.createFile('a/b/c/d/e/f/.foorc.yaml', '');
-  });
-
-  const startDir = temp.absolutePath('a/b/c/d/e/f');
-  const explorerOptions = {
-    stopDir: temp.absolutePath('a'),
-    ignoreEmptySearchPlaces: false,
-  };
-
-  const checkResult = (result: any) => {
-    expect(result).toEqual({
-      config: undefined,
-      filepath: temp.absolutePath('a/b/c/d/e/f/.foorc.yaml'),
-      isEmpty: true,
-    });
-  };
-
-  test('async', async () => {
-    const result = await cosmiconfig('foo', explorerOptions).search(startDir);
-    checkResult(result);
-  });
-
-  test('sync', () => {
-    const result = cosmiconfigSync('foo', explorerOptions).search(startDir);
-    checkResult(result);
-  });
-});
-
 describe('without ignoring empty configs and searching for rc files with specified extensions, returns an empty config result for an empty .js rc file', () => {
   beforeEach(() => {
     temp.createFile('a/b/c/d/e/f/.foorc.js', '');
@@ -434,8 +340,6 @@ describe('without ignoring empty configs and searching for rc files with specifi
       'package.json',
       '.foorc',
       '.foorc.json',
-      '.foorc.yaml',
-      '.foorc.yml',
       '.foorc.js',
       'foo.config.js',
     ],
@@ -473,8 +377,6 @@ describe('without ignoring empty configs and searching for rc files with specifi
       'package.json',
       '.foorc',
       '.foorc.json',
-      '.foorc.yaml',
-      '.foorc.yml',
       '.foorc.js',
       'foo.config.js',
     ],
@@ -526,8 +428,8 @@ describe('throws error if an extensionless file in searchPlaces does not have a 
   const explorerOptions: OptionsSync = {
     stopDir: temp.absolutePath('.'),
     searchPlaces: ['package.json', '.foorc'],
-    // @ts-ignore
     loaders: {
+      // @ts-ignore
       noExt: undefined,
     },
   };

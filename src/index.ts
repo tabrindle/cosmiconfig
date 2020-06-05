@@ -83,9 +83,7 @@ function cosmiconfigSync(moduleName: string, options: OptionsSync = {}) {
 const defaultLoaders = Object.freeze({
   '.js': loaders.loadJs,
   '.json': loaders.loadJson,
-  '.yaml': loaders.loadYaml,
-  '.yml': loaders.loadYaml,
-  noExt: loaders.loadYaml,
+  noExt: loaders.loadJson,
 } as const);
 
 function normalizeOptions(
@@ -106,8 +104,6 @@ function normalizeOptions(
       'package.json',
       `.${moduleName}rc`,
       `.${moduleName}rc.json`,
-      `.${moduleName}rc.yaml`,
-      `.${moduleName}rc.yml`,
       `.${moduleName}rc.js`,
       `${moduleName}.config.js`,
     ],

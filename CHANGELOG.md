@@ -37,8 +37,6 @@
   // [
   //   [ '.js', [Function: loadJs] ],
   //   [ '.json', [Function: loadJson] ],
-  //   [ '.yaml', [Function: loadYaml] ],
-  //   [ '.yml', [Function: loadYaml] ],
   //   [ 'noExt', [Function: loadYaml] ]
   // ]
   ```

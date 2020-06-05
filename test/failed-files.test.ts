@@ -50,27 +50,6 @@ describe('throws error if defined JSON file has syntax error', () => {
   });
 });
 
-describe('throws error if defined YAML file has syntax error', () => {
-  beforeEach(() => {
-    temp.createFile('foo-invalid.yaml', 'foo: true: false');
-  });
-
-  const file = temp.absolutePath('foo-invalid.yaml');
-  const expectedError = `YAML Error in ${file}:\nNested mappings are not allowed in compact mappings at line 1, column 6:`;
-
-  test('async', async () => {
-    await expect(cosmiconfig('failed-files-tests').load(file)).rejects.toThrow(
-      expectedError,
-    );
-  });
-
-  test('sync', () => {
-    expect(() => cosmiconfigSync('failed-files-tests').load(file)).toThrow(
-      expectedError,
-    );
-  });
-});
-
 describe('throws error if defined JS file has syntax error', () => {
   beforeEach(() => {
     temp.createFile('foo-invalid.js', 'module.exports = { foo }');
@@ -123,31 +102,6 @@ describe('returns an empty config result for empty file, format JSON', () => {
   });
 
   const file = temp.absolutePath('foo-empty.json');
-  const checkResult = (result: any) => {
-    expect(result).toEqual({
-      config: undefined,
-      filepath: file,
-      isEmpty: true,
-    });
-  };
-
-  test('async', async () => {
-    const result = await cosmiconfig('failed-files-tests').load(file);
-    checkResult(result);
-  });
-
-  test('sync', () => {
-    const result = cosmiconfigSync('failed-files-tests').load(file);
-    checkResult(result);
-  });
-});
-
-describe('returns an empty config result for empty file, format YAML', () => {
-  beforeEach(() => {
-    temp.createFile('foo-empty.yaml', '');
-  });
-
-  const file = temp.absolutePath('foo-empty.yaml');
   const checkResult = (result: any) => {
     expect(result).toEqual({
       config: undefined,

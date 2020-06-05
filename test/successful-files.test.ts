@@ -34,28 +34,6 @@ describe('loads defined JSON config path', () => {
   });
 });
 
-describe('loads defined YAML config path', () => {
-  beforeEach(() => {
-    temp.createFile('foo.yaml', 'foo: true');
-  });
-
-  const file = temp.absolutePath('foo.yaml');
-  const checkResult = (result: any) => {
-    expect(result.config).toEqual({ foo: true });
-    expect(result.filepath).toBe(file);
-  };
-
-  test('async', async () => {
-    const result = await cosmiconfig('successful-files-tests').load(file);
-    checkResult(result);
-  });
-
-  test('sync', () => {
-    const result = cosmiconfigSync('successful-files-tests').load(file);
-    checkResult(result);
-  });
-});
-
 describe('loads defined JS config path', () => {
   beforeEach(() => {
     temp.createFile('foo.js', 'module.exports = { foo: true };');
@@ -85,28 +63,6 @@ describe('loads modularized JS config path', () => {
   });
 
   const file = temp.absolutePath('foo-module.js');
-  const checkResult = (result: any) => {
-    expect(result.config).toEqual({ foo: true });
-    expect(result.filepath).toBe(file);
-  };
-
-  test('async', async () => {
-    const result = await cosmiconfig('successful-files-tests').load(file);
-    checkResult(result);
-  });
-
-  test('sync', () => {
-    const result = cosmiconfigSync('successful-files-tests').load(file);
-    checkResult(result);
-  });
-});
-
-describe('loads yaml-like JS config path', () => {
-  beforeEach(() => {
-    temp.createFile('foo-yaml-like.js', 'module.exports = { foo: true };');
-  });
-
-  const file = temp.absolutePath('foo-yaml-like.js');
   const checkResult = (result: any) => {
     expect(result.config).toEqual({ foo: true });
     expect(result.filepath).toBe(file);
@@ -276,28 +232,6 @@ describe('loads defined JSON file with no extension', () => {
   const file = temp.absolutePath('foo-valid-json');
   const checkResult = (result: any) => {
     expect(result.config).toEqual({ json: true });
-    expect(result.filepath).toBe(file);
-  };
-
-  test('async', async () => {
-    const result = await cosmiconfig('successful-files-tests').load(file);
-    checkResult(result);
-  });
-
-  test('sync', () => {
-    const result = cosmiconfigSync('successful-files-tests').load(file);
-    checkResult(result);
-  });
-});
-
-describe('loads defined YAML file with no extension', () => {
-  beforeEach(() => {
-    temp.createFile('foo-valid-yaml', 'yaml: true');
-  });
-
-  const file = temp.absolutePath('foo-valid-yaml');
-  const checkResult = (result: any) => {
-    expect(result.config).toEqual({ yaml: true });
     expect(result.filepath).toBe(file);
   };
 
